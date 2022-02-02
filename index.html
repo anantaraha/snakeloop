@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Styles for portrait mode-->
+    <link rel="stylesheet" href="style.css">
+    </link>
+    <!--Styles for landscape mode-->
+    <link rel="stylesheet" href="style-land.css">
+    </link>
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gugi&family=Montserrat:wght@600&family=Roboto+Mono&display=swap"
+        rel="stylesheet">
+    <!--Script-->
+    <script src="snake.js"></script>
+
+    <title>
+        Snake Loop
+    </title>
+</head>
+
+<body onload="loadAll()">
+    <!--Container for the game preview-->
+    <div class="container" id="container">
+
+        <!--Title bar: Contains title only-->
+        <div class="title-bar" id="title_bar">
+            <div class="game-title" id="game_title">
+                Snake Loop
+            </div>
+            <!--Button for information-->
+            <div>
+                <a class="btn-content" href="http://github.com/anantaraha/snakeloop/">
+                    github
+                </a>
+            </div>
+        </div>
+
+        <!--Status bar: Contains score preview & navigation (Play/Pause/Restart) buttons-->
+        <div class="status-bar" id="status_bar">
+            <div class="score-area">
+                <div class="score-title" id="score_title">Score:</div>
+                <div class="score" id="score"></div>
+            </div>
+            <div class="navigation-area">
+                <!--Button for both Play & Pause/Resume action; always enabled-->
+                <button class="btn" id="btn_play" onclick="handleKeyPress('P')">
+                    <div class="btn-content">
+                        <div class="btn-content-text" id="btn_play_text">Pause</div>
+                        <svg class="btn-content-icon" id="btn_play_ic_pause" xmlns="http://www.w3.org/2000/svg"
+                            height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                        </svg>
+                        <svg class="btn-content-icon" id="btn_play_ic_play" xmlns="http://www.w3.org/2000/svg"
+                            height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                </button>
+                <!--Button for Restart action; enabled when game is paused-->
+                <button class="btn" id="btn_restart" onclick="handleKeyPress('R')">
+                    <div class="btn-content">
+                        <div class="btn-content-text" id="btn_restart_text">Restart</div>
+                        <svg class="btn-content-icon" id="btn_restart_ic_restart" xmlns="http://www.w3.org/2000/svg"
+                            height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!--Grid container: Contains the snake field of size (41x41)-->
+        <div class="grid-view-container" id="grid_view_container">
+            <div class="grid-view" id="grid_view"></div>
+        </div>
+
+        <!--Side panel: Contains control (Up/Left/Right/Down) buttons-->
+        <div class="side-panel" id="side_panel">
+            <div class="info-area" id="info_area">
+                <div class="info-text" id="info_control">
+                    ● Navigation = Arrow keys
+                    <br>
+                    ● Play/Pause/Resume = P
+                    <br>
+                    ● Restart = R
+                </div>
+            </div>
+
+            <div class="control-area">
+                <button class="ctrl-btn" id="btn_up" onclick="handleKeyPress('ArrowUp')">
+                    <svg class="ctrl-btn-content" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
+                        width="24px" fill="#000000">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" />
+                    </svg>
+                </button>
+                <button class="ctrl-btn" id="btn_left" onclick="handleKeyPress('ArrowLeft')">
+                    <svg class="ctrl-btn-content" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
+                        width="24px" fill="#000000">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+                    </svg>
+                </button>
+                <button class="ctrl-btn" id="btn_right" onclick="handleKeyPress('ArrowRight')">
+                    <svg class="ctrl-btn-content" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
+                        width="24px" fill="#000000">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z" />
+                    </svg>
+                </button>
+                <button class="ctrl-btn" id="btn_down" onclick="handleKeyPress('ArrowDown')">
+                    <svg class="ctrl-btn-content" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
+                        width="24px" fill="#000000">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal for 'Game over' message-->
+    <div class="game-over-modal" id="game_over_modal">
+        <!--Modal content: Dialog to show-->
+        <div class="game-over-modal-content" id="game_over_modal_content">
+            <div class="game-over-title">Game over!</div>
+            <div class="game-over-score-area">
+                <div class="game-over-score">Your score:</div>
+                <div class="game-over-score" id="game_over_score"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
