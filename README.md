@@ -7,4 +7,4 @@ A minimal snake game using HTML, CSS & Javascript.
 - Avoid wall collision and self loop   
 - Survive as long as possible   
 
-### [Site](https://anantaraha.github.io/snakeloop/)
+Preview: https://anantaraha.github.io/snakeloop/
